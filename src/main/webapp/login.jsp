@@ -32,17 +32,17 @@
 <div class="container">
 
     <form method="POST" action="${contextPath}/login" class="form-signin">
-        <h4 class="form-heading"><font color="red">Tervetuloa Devops-sivustoon</font></h4>
+        <h4 class="form-heading"><font color="red">Tervetuloa Devops-sivustoon V1</font></h4>
 
         <div class="form-group ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
-            <input name="username" type="text" class="form-control" placeholder="K‰ytt‰j‰tunnus"
+            <input name="username" type="text" class="form-control" placeholder="K√§ytt√§j√§tunnus"
                    autofocus="true"/>
             <input name="password" type="password" class="form-control" placeholder="Salasana"/>
             <span>${error}</span>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Kirjaudu sis‰‰n</button>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Kirjaudu sis√§√§n</button>
             <h4 class="text-center"><a href="${contextPath}/registration">Luo tili</a></h4>
         </div>
 
