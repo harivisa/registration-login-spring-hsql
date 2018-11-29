@@ -51,7 +51,7 @@ public class UserController {
             model.addAttribute("error", "Käyttäjätunnus ja salasana eivät kelpaa.");
 
         if (logout != null)
-            model.addAttribute("message", "Olet kirjautunut ulos onnistuneesti.");
+            model.addAttribute("message", " Olet kirjautunut ulos onnistuneesti.");
 
         return "login";
     }
