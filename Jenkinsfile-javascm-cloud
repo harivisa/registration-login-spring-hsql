@@ -1,0 +1,63 @@
+pipeline {
+    agent any 
+    stages {
+        stage('Clone git and clean') { 
+            steps {
+                sh "mvn clean"
+            }
+        }
+        
+        stage('compiled and packaged JAR ') { 
+            steps {
+                 sh "mvn install"
+            }
+        }
+	stage('Build and Test') { 
+            steps {
+                sh "mvn test"
+            }
+        }
+        stage('Build an image from a Dockerfile') { 
+            steps {
+                 sh "cd /var/lib/jenkins/workspace/gs-spring-boot"
+                 sh "docker build -t gcr.io/test-220275285/devops-app:v1 ."
+            }
+        }
+        stage('Creating a cluster.') { 
+            steps {
+                 sh "gcloud container clusters create devops-web-cluster \
+                      --num-nodes 1 \
+                      --machine-type n1-standard-1 \
+                      --zone australia-southeast1-a"
+            }
+        }
+        stage('Getting the cluster credentials.') { 
+            steps {
+                 sh "gcloud container clusters get-credentials devops-web-cluster --zone australia-southeast1-a"
+            }
+        }
+        stage('Pushing The Docker Image to Container Registry') { 
+            steps {
+                 sh "gcloud auth configure-docker"
+                 sh "docker push gcr.io/test-220275285/devops-app:v1"
+            }
+        }
+        stage('Deployments: Instantiating A Container From the Docker Image') { 
+            steps {
+                 sh "kubectl run devops-web-cluster --image=gcr.io/test-220275285/devops-app:v1 --port=8080"
+            }
+        }
+        stage('Services: Expose application to External traffic') { 
+            steps {
+                 sh "kubectl expose deployment devops-web-cluster --type=LoadBalancer"
+            }
+        }
+         stage('Get services:') { 
+            steps {
+                 sh "sleep 150"
+                 sh "kubectl get services"
+            }
+        }
+        
+    }
+}
