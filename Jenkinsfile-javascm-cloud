@@ -42,12 +42,12 @@ pipeline {
                  sh "docker push gcr.io/test-220275285/devops-app:v1"
             }
         }
-        stage('Deployments: Instantiating A Container From the Docker Image') { 
+        stage('Deploy your application') { 
             steps {
                  sh "kubectl run devops-web-cluster --image=gcr.io/test-220275285/devops-app:v1 --port=8080"
             }
         }
-        stage('Services: Expose application to External traffic') { 
+        stage('Expose your application to the Internet') { 
             steps {
                  sh "kubectl expose deployment devops-web-cluster --type=LoadBalancer"
             }
