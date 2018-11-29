@@ -1,0 +1,44 @@
+pipeline {
+    agent any 
+    stages {
+        stage('Clone git and clean') { 
+            steps {
+                sh "mvn clean"
+            }
+        }
+        
+        stage('compiled and packaged JAR ') { 
+            steps {
+                 sh "mvn install"
+            }
+        }
+	stage('Build and Test') { 
+            steps {
+                sh "mvn test"
+            }
+        }
+        stage('Build an image from a Dockerfile') { 
+            steps {
+                 sh "cd /var/lib/jenkins/workspace/gs-spring-boot"
+                 sh "docker build -t gcr.io/test-220275285/devops-app:v2 ."
+            }
+        }
+       
+        stage('Getting the cluster credentials.') { 
+            steps {
+                 sh "gcloud container clusters get-credentials devops-web-cluster --zone australia-southeast1-a"
+            }
+        }
+        stage('Pushing The Docker Image to Container Registry') { 
+            steps {
+                 sh "gcloud auth configure-docker"
+                 sh "docker push gcr.io/test-220275285/devops-app:v2"
+            }
+        }
+        stage('Deployments: Instantiating A Container From the Docker Image') { 
+            steps {
+		   sh "kubectl set image deployment/devops-web-cluster devops-web-cluster=gcr.io/test-220275285/devops-app:v2"
+            }
+        }
+    }
+}
