@@ -31,11 +31,11 @@
 <div class="container">
 
     <form method="POST" action="${contextPath}/login" class="form-signin">
-        <h4 class="form-heading"><font color="red">Tervetuloa Devops-sivustoon V1</font></h4>
+        <h4 class="form-heading"><font color="red">Tervetuloa Devops-sivustoon V2</font></h4>
 
         <div class="form-group ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
-            <input name="username" type="text" class="form-control" placeholder="Käyttäjätunnus"
+            <input name="username" type="text" class="form-control" placeholder="KÃ¤yttÃ¤jÃ¤tunnus"
                    autofocus="true"/>
             <input name="password" type="password" class="form-control" placeholder="Salasana"/>
             <span>${error}</span>
