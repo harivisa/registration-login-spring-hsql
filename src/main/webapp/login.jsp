@@ -3,7 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +35,7 @@
 
         <div class="form-group ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
-            <input name="username" type="text" class="form-control" placeholder="KÃ¤yttÃ¤jÃ¤tunnus"
+            <input name="username" type="text" class="form-control" placeholder="Käyttäjätunnus"
                    autofocus="true"/>
             <input name="password" type="password" class="form-control" placeholder="Salasana"/>
             <span>${error}</span>
